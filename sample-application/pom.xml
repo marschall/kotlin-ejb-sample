@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.github.marschall</groupId>
+        <artifactId>kotlin-ejb-sample</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>sample-application</artifactId>
+    <packaging>ear</packaging>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.marschall</groupId>
+            <artifactId>tenant</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>com.github.marschall</groupId>
+            <artifactId>merchant</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <version>6</version>
+                    <!--
+                        override the application name, the application name is part of the JNDI name
+                        if we leave this out the version name would end up being part of the application
+                        name
+                    -->
+                    <applicationName>sample-application</applicationName>
+                    <defaultLibBundleDir>lib/</defaultLibBundleDir>
+                    <!--
+                        prevent the version from ending up in the EJB jar name
+                        because the name of the jar is the default name for the
+                        module with ends up in the JNDI name
+
+                        once version 2.8 of the maven ear plugin is released this
+                        can be changed to "no-version-for-ejbs"
+                    -->
+                    <fileNameMapping>no-version</fileNameMapping>
+                    <archive>
+                        <index>true</index>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
