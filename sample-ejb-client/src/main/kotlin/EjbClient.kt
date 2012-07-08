@@ -10,6 +10,12 @@ import com.github.marschall.kotlin.tenant.api.Tenant
 import java.util.List
 import java.util.Collections
 import java.util.ArrayList
+import javax.security.auth.callback.CallbackHandler
+import javax.security.auth.callback.Callback
+import javax.security.auth.callback.NameCallback
+import javax.security.auth.callback.PasswordCallback
+import javax.security.auth.login.LoginContext
+import com.github.marschall.kotlin.merchant.api.TMerchant
 
 class EjbClient {
 
@@ -17,11 +23,47 @@ class EjbClient {
         Security.addProvider(JBossSaslProvider())
     }
 
+    class object {
+        /** see jaas.config */
+        val LOGIN_CONTEXT_NAME: String = "kotlin"
+
+        /** JAAS configuration file name */
+        val LOGIN_CONFIG_FILENAME: String  = "jaas.config"
+
+        /**
+         * JAAS login config system property. Will point to location of
+         * {@link #LOGIN_CONFIG_FILENAME}
+         */
+        val LOGIN_CONFIG_PROPERTY: String  = "java.security.auth.login.config"
+    }
+
     fun run() {
+        // set up JAAS
+        val url = javaClass<EjbClient>().getClassLoader()!!.getResource(LOGIN_CONFIG_FILENAME)
+        if (url != null) {
+            System.setProperty(LOGIN_CONFIG_PROPERTY, url.toExternalForm())
+        } else {
+            throw RuntimeException("could not find " + LOGIN_CONFIG_FILENAME);
+        }
+
+        // do unauthenticated calls
         var context = createInitialContext()
-        val tenant = lookUp(context, "tenant", "TenantBean", javaClass<TTenant>())
-        for (tenant in tenant.activeTenants()) {
-            println(tenant)
+        val tenantBean = lookUp(context, "tenant", "TenantBean", javaClass<TTenant>())
+        for (tenant in tenantBean.activeTenants()) {
+            System.out.println(tenant)
+        }
+
+        // login
+        val loginContext = LoginContext(LOGIN_CONTEXT_NAME, KotlinLoginHandler())
+        loginContext.login()
+
+        // unauthenticated calls
+        val merchantBean = lookUp(context, "merchant", "MerchantBean", javaClass<TMerchant>())
+        System.out.println(merchantBean.userName())
+        for (tenant in tenantBean.activeTenants()) {
+            for (merchant in merchantBean.activeMerchants(tenant)) {
+                System.out.println(merchant)
+            }
         }
 
     }
@@ -49,14 +91,29 @@ fun <T> lookUp(context: Context, moduleName: String, beanName: String, interface
     //use JNDI instead of ejb
     val proxy = context.lookup(appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + interfaceClass.getName())
     return interfaceClass.cast(proxy)!!
+}
+
+class KotlinLoginHandler : CallbackHandler {
+
+    public override fun handle(callbacks: Array<Callback?>?) {
+        for (callback: Callback? in callbacks) {
+            when (callback) {
+                is NameCallback -> callback.setName("admin")
+                is PasswordCallback -> callback.setPassword("admin".toCharArray())
+                else -> throw IllegalStateException("unknown callback" + callback)
+            }
+        }
     }
+
+}
 
 fun createInitialContext(): Context {
     val jndiProperties = Hashtable<Any, Any>()
     jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming")
     jndiProperties.put(Context.PROVIDER_URL, "remote://127.0.0.1:4447")
     jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory")
-    jndiProperties.put("jboss.naming.client.ejb.context", true)
+    jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory")
+    jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_DISALLOWED_MECHANISMS", "JBOSS-LOCAL-USER")
     return InitialContext(jndiProperties)
 }
 

@@ -68,7 +68,7 @@
             <dependency>
                 <groupId>org.picketbox</groupId>
                 <artifactId>picketbox-spi-bare</artifactId>
-                <version>4.0.9.Final</version>
+                <version>${picketbox.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -76,6 +76,7 @@
 
     <properties>
         <kotlin.version>0.1.2580</kotlin.version>
+        <picketbox.version>4.0.9.Final</picketbox.version>
         <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
     </properties>

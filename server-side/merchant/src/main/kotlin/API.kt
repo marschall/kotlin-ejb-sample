@@ -5,11 +5,11 @@ import java.util.List
 import javax.ejb.Remote
 import com.github.marschall.kotlin.tenant.api.Tenant
 
-Remote
 public trait TMerchant {
-    public fun activeMerchants(tenant: Tenant) : List<Merchant>
+    public fun activeMerchants(tenant: Tenant): List<Merchant>
+    public fun userName(): String?
 }
 
-public class Merchant(val id:Long, val name: String) : Serializable {
+public class Merchant(val id:Long, val name: String): Serializable {
 
 }
