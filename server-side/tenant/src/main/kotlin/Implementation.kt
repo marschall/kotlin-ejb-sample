@@ -14,7 +14,7 @@ open class TenantBean : TTenant {
 
     public override fun activeTenants(): List<Tenant> {
         //return list(Tenant(1, "te1", "First Tentant"), Tenant(2, "tex", "Second Tentant"))
-        val tenants: List<Tenant> = ArrayList<Tenant>()
+        val tenants = ArrayList<Tenant>()
         tenants.add(Tenant(1, "te1", "First Tentant"))
         tenants.add(Tenant(2, "tex", "Second Tentant"))
 

@@ -6,16 +6,25 @@ import java.util.Hashtable
 import javax.naming.Context
 import javax.naming.InitialContext
 import org.jboss.sasl.JBossSaslProvider
+import com.github.marschall.kotlin.tenant.api.Tenant
+import java.util.List
+import java.util.Collections
+import java.util.ArrayList
 
 class EjbClient {
 
-    fun run() {
+    static {
         Security.addProvider(JBossSaslProvider())
-        val context = createInitialContext()
-        val tenant = lookUp(context, "tenant", "TenantBean", javaClass<TTenant>())
-        println(tenant.activeTenants())
     }
 
+    fun run() {
+        var context = createInitialContext()
+        val tenant = lookUp(context, "tenant", "TenantBean", javaClass<TTenant>())
+        for (tenant in tenant.activeTenants()) {
+            println(tenant)
+        }
+
+    }
 }
 
 fun <T> lookUp(context: Context, moduleName: String, beanName: String, interfaceClass: Class<T>): T {

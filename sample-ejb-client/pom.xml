@@ -34,6 +34,21 @@
             -->
             <type>ejb-client</type>
         </dependency>
+        <dependency>
+            <groupId>com.github.marschall</groupId>
+            <artifactId>merchant</artifactId>
+            <version>${project.version}</version>
+            <!--
+                depend only on the api classes so that the implementation classes
+                will not be on the client
+            -->
+            <type>ejb-client</type>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <!-- apparently only needed for kotilin.io.namespace -->
+        </dependency>
 
         <!-- Import the transaction spec API, we use runtime scope because we aren't using any direct
 reference to the spec API in our client code -->
