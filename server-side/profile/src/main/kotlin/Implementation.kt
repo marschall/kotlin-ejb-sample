@@ -32,7 +32,8 @@ open class ProfileBean {
      * <a href="https://issues.jboss.org/browse/JBWS-3213">JBWS-3213</a>.</p>
      */
     WebMethod
-    fun identity(s: String): String {
+    // remember Session bean methods MUST be public, not abstract and not final
+    open fun identity(s: String): String {
         return s
     }
 
