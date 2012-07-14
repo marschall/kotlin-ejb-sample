@@ -70,6 +70,11 @@
                 <artifactId>picketbox-spi-bare</artifactId>
                 <version>${picketbox.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.jboss.ws</groupId>
+                <artifactId>jbossws-api</artifactId>
+                <version>1.0.0.GA</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

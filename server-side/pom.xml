@@ -15,6 +15,7 @@
     <modules>
         <module>tenant</module>
         <module>merchant</module>
+        <module>profile</module>
     </modules>
 
     <dependencyManagement>

@@ -112,8 +112,8 @@ fun createInitialContext(): Context {
     jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming")
     jndiProperties.put(Context.PROVIDER_URL, "remote://127.0.0.1:4447")
     jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory")
-    jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory")
     jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_DISALLOWED_MECHANISMS", "JBOSS-LOCAL-USER")
+    jndiProperties.put("jboss.naming.client.ejb.context", true)
     return InitialContext(jndiProperties)
 }
 
