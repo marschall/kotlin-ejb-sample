@@ -1,0 +1,13 @@
+POST /profile/webservice HTTP/1.1
+Content-Type: text/xml
+Content-Length: 281
+Host: localhost:8080
+Connection: Close
+User-Agent: SAP Web Application Server (1.0;700)
+
+<?xml version="1.0" encoding="iso-8859-1"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prof="http://www.acme.com/profile">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prof:identity>inpüt</prof:identity>
+   </soapenv:Body>
+</soapenv:Envelope>

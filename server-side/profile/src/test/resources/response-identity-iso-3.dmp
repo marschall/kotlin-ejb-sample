@@ -1,0 +1,8 @@
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Content-Type: text/xml;charset=ISO-8859-1
+Content-Length: 187
+Date: Sun, 15 Jul 2012 09:23:30 GMT
+Connection: close
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><identityResponse xmlns="http://www.acme.com/profile">inpüt</identityResponse></soap:Body></soap:Envelope>

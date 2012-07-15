@@ -1,0 +1,14 @@
+POST /profile/webservice HTTP/1.1
+Accept-Encoding: gzip,deflate
+SOAPAction: ""
+Content-Length: 281
+Host: localhost:8080
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
+
+<?xml version="1.0" encoding="iso-8859-1"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prof="http://www.acme.com/profile">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prof:identity>input</prof:identity>
+   </soapenv:Body>
+</soapenv:Envelope>
