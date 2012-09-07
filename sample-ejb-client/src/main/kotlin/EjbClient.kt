@@ -39,6 +39,7 @@ class EjbClient {
 
     fun run() {
         // set up JAAS
+
         val url = javaClass<EjbClient>().getClassLoader()!!.getResource(LOGIN_CONFIG_FILENAME)
         if (url != null) {
             System.setProperty(LOGIN_CONFIG_PROPERTY, url.toExternalForm())
@@ -54,10 +55,12 @@ class EjbClient {
         }
 
         // login
-        val loginContext = LoginContext(LOGIN_CONTEXT_NAME, KotlinLoginHandler())
-        loginContext.login()
+        //val loginContext = LoginContext(LOGIN_CONTEXT_NAME, KotlinLoginHandler())
+        //loginContext.login()
 
         // unauthenticated calls
+        //val merchantBean = lookUp(context, "merchant", "MerchantBean", javaClass<TMerchant>())
+        context = createInitialContextForUser("admin", "admin")
         val merchantBean = lookUp(context, "merchant", "MerchantBean", javaClass<TMerchant>())
         System.out.println(merchantBean.userName())
         for (tenant in tenantBean.activeTenants()) {
@@ -109,11 +112,21 @@ class KotlinLoginHandler : CallbackHandler {
 
 fun createInitialContext(): Context {
     val jndiProperties = Hashtable<Any, Any>()
+    jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory")
     jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming")
     jndiProperties.put(Context.PROVIDER_URL, "remote://127.0.0.1:4447")
+    jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS", false)
+    return InitialContext(jndiProperties)
+}
+
+fun createInitialContextForUser(userName: String, password: String): Context {
+    val jndiProperties = Hashtable<Any, Any>()
     jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory")
-    jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_DISALLOWED_MECHANISMS", "JBOSS-LOCAL-USER")
-    jndiProperties.put("jboss.naming.client.ejb.context", true)
+    jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming")
+    jndiProperties.put(Context.PROVIDER_URL, "remote://127.0.0.1:4447")
+    jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS", true)
+    jndiProperties.put("remote.connection.default.username", userName)
+    jndiProperties.put("remote.connection.default.password", password)
     return InitialContext(jndiProperties)
 }
 

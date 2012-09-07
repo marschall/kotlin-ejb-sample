@@ -13,6 +13,7 @@
         <module>sample-ejb-client</module>
         <module>server-side</module>
         <module>sample-application</module>
+        <module>sample-rar</module>
     </modules>
 
     <build>

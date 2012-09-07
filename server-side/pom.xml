@@ -16,6 +16,7 @@
         <module>tenant</module>
         <module>merchant</module>
         <module>profile</module>
+        <module>sample-adapter</module>
     </modules>
 
     <dependencyManagement>
