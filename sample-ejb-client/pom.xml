@@ -116,6 +116,11 @@ isn't directly used in this example. We just need it in our runtime classpath --
             <plugin>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <groupId>org.jetbrains.kotlin</groupId>
+                <configuration>
+                    <annotationPaths>
+                        <annotationPath>${project.basedir}/src/main/annotations</annotationPath>
+                    </annotationPaths>
+                </configuration>
                 <executions>
                     <execution>
                         <id>compile</id>
