@@ -1,6 +1,5 @@
 package com.github.marschall.kotlin.client
 
-import com.github.marschall.kotlin.merchant.api.TMerchant
 import com.github.marschall.kotlin.tenant.api.TTenant
 import java.security.Security
 import java.util.Hashtable
@@ -33,6 +32,7 @@ class EjbClient {
 
         // unauthenticated calls
         //val merchantBean = lookUp(context, "merchant", "MerchantBean", javaClass<TMerchant>())
+        /*
         context = createInitialContextForUser("admin", "admin")
         val merchantBean = lookUp(context, "merchant", "MerchantBean", javaClass<TMerchant>())
         System.out.println(merchantBean.userName())
@@ -41,6 +41,7 @@ class EjbClient {
                 System.out.println(merchant)
             }
         }
+        */
 
     }
 }
@@ -67,7 +68,7 @@ fun <T> lookUp(context: Context, moduleName: String, beanName: String, interface
     // val remoteName = "ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + interfaceClass.getName()
     val remoteName = "ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + interfaceClass.getName()
     println(remoteName)
-    val proxy = context.lookup(remoteName);
+    val proxy = context.lookup(remoteName)
     // val proxy = context.lookup("ejb:/" + appName + "/" + moduleName + "/" + beanName + "!" + interfaceClass.getName());
     return interfaceClass.cast(proxy)!!
 }
@@ -88,6 +89,7 @@ fun createConfigurationHashTable(): Hashtable<Any, Any> {
     // https://community.jboss.org/thread/176963
     jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 
+    /*
     jndiProperties.put("endpoint.name", "client-endpoint")
     jndiProperties.put("remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED", false)
 
@@ -98,6 +100,8 @@ fun createConfigurationHashTable(): Hashtable<Any, Any> {
     jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS", false);
 
     // jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_DISALLOWED_MECHANISMS", "JBOSS-LOCAL-USER");
+    */
+
     return jndiProperties
 }
 

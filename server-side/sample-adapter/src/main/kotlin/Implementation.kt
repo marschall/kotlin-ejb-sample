@@ -6,11 +6,10 @@ import javax.resource.spi.BootstrapContext
 import javax.resource.spi.Connector
 import javax.resource.spi.ResourceAdapter
 import javax.resource.spi.TransactionSupport
-import javax.resource.spi.TransactionSupport.TransactionSupportLevel
 import javax.resource.spi.endpoint.MessageEndpointFactory
 import javax.transaction.xa.XAResource
 
-Connector(reauthenticationSupport = false, transactionSupport = TransactionSupportLevel.NoTransaction)
+Connector
 class SampleAdapter : ResourceAdapter {
 
     public override fun start(ctx: BootstrapContext?) {

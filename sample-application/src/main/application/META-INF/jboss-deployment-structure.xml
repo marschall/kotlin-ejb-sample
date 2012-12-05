@@ -1,4 +1,4 @@
 <jboss-deployment-structure>
     <!-- Make sub deployments isolated by default, so they cannot see each others classes without a Class-Path entry -->
-    <ear-subdeployments-isolated>true</ear-subdeployments-isolated>
+    <ear-subdeployments-isolated>false</ear-subdeployments-isolated>
 </jboss-deployment-structure>
