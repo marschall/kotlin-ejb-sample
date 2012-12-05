@@ -1,9 +1,10 @@
 package com.github.marschall.kotlin.profile.implementation
 
 import javax.ejb.Singleton
-import javax.jws.soap.SOAPBinding
-import javax.jws.WebService
 import javax.jws.WebMethod
+import javax.jws.WebService
+import javax.jws.soap.SOAPBinding
+import javax.jws.soap.SOAPBinding.ParameterStyle
 import org.jboss.ws.api.annotation.WebContext
 
 /**
@@ -20,7 +21,7 @@ WebService(
     name = "Profile",
     targetNamespace = "http://www.acme.com/profile",
     serviceName = "ProfileService")
-SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
+SOAPBinding(parameterStyle = ParameterStyle.BARE)
 WebContext(contextRoot = "profile", urlPattern = "/webservice")
 // remember Session bean implementation class MUST be public, not abstract and not final
 open class ProfileBean {

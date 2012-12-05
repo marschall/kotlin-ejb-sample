@@ -107,27 +107,6 @@ isn't directly used in this example. We just need it in our runtime classpath --
             <scope>runtime</scope>
         </dependency>
 
-        <!-- we use remote JNDI so we need this as well -->
-        <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jboss-remote-naming</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- used for JNDI login -->
-        <dependency>
-            <groupId>org.picketbox</groupId>
-            <artifactId>jbosssx-client</artifactId>
-            <version>${picketbox.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.picketbox</groupId>
-            <artifactId>picketbox-spi-bare</artifactId>
-            <version>${picketbox.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
     </dependencies>
 
     <build>

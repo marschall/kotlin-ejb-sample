@@ -1,11 +1,11 @@
 package com.github.marschall.kotlin.merchant.implementation
 
-import org.junit.Before
 import com.github.marschall.kotlin.merchant.api.TMerchant
-import org.junit.Test
 import com.github.marschall.kotlin.tenant.api.Tenant
-import kotlin.test.assertNotNull
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import org.junit.Before
+import org.junit.Test
 
 class MerchantBeanTest {
 
