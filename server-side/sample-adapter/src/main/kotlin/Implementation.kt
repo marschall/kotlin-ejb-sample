@@ -1,17 +1,15 @@
 package com.github.marschall.kotlin.rar.implementation
 
-import javax.resource.ResourceException
+import java.util.logging.Logger
+import javax.resource.spi.ActivationSpec
+import javax.resource.spi.BootstrapContext
+import javax.resource.spi.Connector
 import javax.resource.spi.ResourceAdapter
-import javax.resource.spi.TransactionSupport.TransactionSupportLevel
+import javax.resource.spi.TransactionSupport
 import javax.resource.spi.endpoint.MessageEndpointFactory
 import javax.transaction.xa.XAResource
-import javax.resource.spi.BootstrapContext
-import javax.resource.spi.ActivationSpec
-import javax.resource.spi.Connector
-import java.util.logging.Logger
-import sun.util.LocaleServiceProviderPool.LocalizedObjectGetter
 
-Connector(reauthenticationSupport = false, transactionSupport = TransactionSupportLevel.NoTransaction)
+Connector
 class SampleAdapter : ResourceAdapter {
 
     public override fun start(ctx: BootstrapContext?) {
@@ -30,7 +28,7 @@ class SampleAdapter : ResourceAdapter {
 
     }
 
-    public override fun getXAResources(specs: Array<ActivationSpec?>?): Array<XAResource?>? {
+    public override fun getXAResources(specs: Array<out ActivationSpec?>?): Array<XAResource?>? {
         return null;
     }
 

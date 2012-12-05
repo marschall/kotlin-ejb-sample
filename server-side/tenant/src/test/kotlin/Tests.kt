@@ -1,10 +1,9 @@
 package com.github.marschall.kotlin.tenant.implementation
 
-import org.junit.Before
 import com.github.marschall.kotlin.tenant.api.TTenant
-import org.junit.Test
 import org.junit.Assert.*
-import org.hamcrest.Matchers.*
+import org.junit.Before
+import org.junit.Test
 
 class TenantBeanTest {
 

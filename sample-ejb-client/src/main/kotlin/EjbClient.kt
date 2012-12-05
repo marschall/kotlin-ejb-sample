@@ -5,17 +5,11 @@ import java.security.Security
 import java.util.Hashtable
 import javax.naming.Context
 import javax.naming.InitialContext
-import org.jboss.sasl.JBossSaslProvider
-import com.github.marschall.kotlin.tenant.api.Tenant
-import java.util.List
-import java.util.Collections
-import java.util.ArrayList
-import javax.security.auth.callback.CallbackHandler
 import javax.security.auth.callback.Callback
+import javax.security.auth.callback.CallbackHandler
 import javax.security.auth.callback.NameCallback
 import javax.security.auth.callback.PasswordCallback
-import javax.security.auth.login.LoginContext
-import com.github.marschall.kotlin.merchant.api.TMerchant
+import org.jboss.sasl.JBossSaslProvider
 
 class EjbClient {
 
@@ -23,29 +17,7 @@ class EjbClient {
         Security.addProvider(JBossSaslProvider())
     }
 
-    class object {
-        /** see jaas.config */
-        val LOGIN_CONTEXT_NAME: String = "kotlin"
-
-        /** JAAS configuration file name */
-        val LOGIN_CONFIG_FILENAME: String  = "jaas.config"
-
-        /**
-         * JAAS login config system property. Will point to location of
-         * {@link #LOGIN_CONFIG_FILENAME}
-         */
-        val LOGIN_CONFIG_PROPERTY: String  = "java.security.auth.login.config"
-    }
-
     fun run() {
-        // set up JAAS
-
-        val url = javaClass<EjbClient>().getClassLoader()!!.getResource(LOGIN_CONFIG_FILENAME)
-        if (url != null) {
-            System.setProperty(LOGIN_CONFIG_PROPERTY, url.toExternalForm())
-        } else {
-            throw RuntimeException("could not find " + LOGIN_CONFIG_FILENAME);
-        }
 
         // do unauthenticated calls
         var context = createInitialContext()
@@ -60,6 +32,7 @@ class EjbClient {
 
         // unauthenticated calls
         //val merchantBean = lookUp(context, "merchant", "MerchantBean", javaClass<TMerchant>())
+        /*
         context = createInitialContextForUser("admin", "admin")
         val merchantBean = lookUp(context, "merchant", "MerchantBean", javaClass<TMerchant>())
         System.out.println(merchantBean.userName())
@@ -68,6 +41,7 @@ class EjbClient {
                 System.out.println(merchant)
             }
         }
+        */
 
     }
 }
@@ -90,43 +64,59 @@ fun <T> lookUp(context: Context, moduleName: String, beanName: String, interface
     //    final String beanName = "AS7Bean";
     // the remote view fully qualified class name
     // let's do the lookup
-    //    Object proxy = context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + interfaceClass.getName());
-    //use JNDI instead of ejb
-    val proxy = context.lookup(appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + interfaceClass.getName())
+    // val proxy = context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + interfaceClass.getName());
+    // val remoteName = "ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + interfaceClass.getName()
+    val remoteName = "ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + interfaceClass.getName()
+    println(remoteName)
+    val proxy = context.lookup(remoteName)
+    // val proxy = context.lookup("ejb:/" + appName + "/" + moduleName + "/" + beanName + "!" + interfaceClass.getName());
     return interfaceClass.cast(proxy)!!
 }
 
-class KotlinLoginHandler : CallbackHandler {
+fun createConfigurationHashTable(): Hashtable<Any, Any> {
+    // https://issues.jboss.org/browse/EJBCLIENT-34
+    val jndiProperties = Hashtable<Any, Any>()
 
-    public override fun handle(callbacks: Array<Callback?>?) {
-        for (callback: Callback? in callbacks) {
-            when (callback) {
-                is NameCallback -> callback.setName("admin")
-                is PasswordCallback -> callback.setPassword("admin".toCharArray())
-                else -> throw IllegalStateException("unknown callback" + callback)
-            }
-        }
-    }
+    // https://community.jboss.org/thread/196054
+    // https://community.jboss.org/thread/199165?tstart=0
+    // java.naming.provider.url=remote://localhost:4447
+    // java.naming.factory.initial=org.jboss.naming.remote.client.InitialContextFactory
+    // java.naming.factory.url.pkgs=org.jboss.ejb.client.naming
 
+    // https://community.jboss.org/thread/196943
+    // https://community.jboss.org/wiki/JBossAS7RemoteEJBAuthenticationHowto
+    // https://community.jboss.org/message/732309#732309#732309
+    // https://community.jboss.org/thread/176963
+    jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+
+    /*
+    jndiProperties.put("endpoint.name", "client-endpoint")
+    jndiProperties.put("remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED", false)
+
+    jndiProperties.put("remote.connections", "default")
+
+    jndiProperties.put("remote.connection.default.host", "127.0.0.1")
+    jndiProperties.put("remote.connection.default.port", 4447)
+    jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS", false);
+
+    // jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_DISALLOWED_MECHANISMS", "JBOSS-LOCAL-USER");
+    */
+
+    return jndiProperties
 }
 
 fun createInitialContext(): Context {
-    val jndiProperties = Hashtable<Any, Any>()
-    jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory")
-    jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming")
-    jndiProperties.put(Context.PROVIDER_URL, "remote://127.0.0.1:4447")
-    jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS", false)
+    val jndiProperties = createConfigurationHashTable()
     return InitialContext(jndiProperties)
 }
 
-fun createInitialContextForUser(userName: String, password: String): Context {
-    val jndiProperties = Hashtable<Any, Any>()
-    jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory")
-    jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming")
-    jndiProperties.put(Context.PROVIDER_URL, "remote://127.0.0.1:4447")
-    jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS", true)
-    jndiProperties.put("remote.connection.default.username", userName)
+fun createInitialContextForUser(username: String, password: String): Context {
+    val jndiProperties = createConfigurationHashTable()
+    jndiProperties.put("remote.connection.default.username", username)
     jndiProperties.put("remote.connection.default.password", password)
+
+    jndiProperties.put(Context.SECURITY_PRINCIPAL, username);
+    jndiProperties.put(Context.SECURITY_CREDENTIALS, password)
     return InitialContext(jndiProperties)
 }
 

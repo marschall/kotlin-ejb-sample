@@ -1,15 +1,15 @@
 package com.github.marschall.kotlin.merchant.implementation
 
-import java.util.List
-import javax.ejb.Singleton
-import javax.ejb.Remote
-import java.util.ArrayList
-import com.github.marschall.kotlin.merchant.api.TMerchant
 import com.github.marschall.kotlin.merchant.api.Merchant
-import org.jboss.security.annotation.SecurityDomain
+import com.github.marschall.kotlin.merchant.api.TMerchant
 import com.github.marschall.kotlin.tenant.api.Tenant
-import javax.ejb.EJBContext
+import java.util.ArrayList
+import java.util.List
 import javax.annotation.Resource
+import javax.ejb.EJBContext
+import javax.ejb.Remote
+import javax.ejb.Singleton
+import org.jboss.security.annotation.SecurityDomain
 
 Singleton
 SecurityDomain("kotlin")
@@ -30,14 +30,14 @@ open class MerchantBean : TMerchant {
                 val merchants = ArrayList<Merchant>(2)
                 merchants.add(Merchant(1, "Big Corp"))
                 merchants.add(Merchant(2, "Big Retailer"))
-                return merchants
+                return merchants as List<Merchant>
             }
             2.toLong() -> {
                 val merchants = ArrayList<Merchant>(1)
                 merchants.add(Merchant(3, "Mom and Pop Store"))
-                return merchants
+                return merchants as List<Merchant>
             }
-            else -> return ArrayList(0)
+            else -> return ArrayList<Merchant>(0) as List<Merchant>
         }
     }
 
