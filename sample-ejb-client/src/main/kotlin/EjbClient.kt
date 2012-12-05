@@ -63,7 +63,12 @@ fun <T> lookUp(context: Context, moduleName: String, beanName: String, interface
     //    final String beanName = "AS7Bean";
     // the remote view fully qualified class name
     // let's do the lookup
-    val proxy = context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + interfaceClass.getName());
+    // val proxy = context.lookup("ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + interfaceClass.getName());
+    // val remoteName = "ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + interfaceClass.getName()
+    val remoteName = "ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + interfaceClass.getName()
+    println(remoteName)
+    val proxy = context.lookup(remoteName);
+    // val proxy = context.lookup("ejb:/" + appName + "/" + moduleName + "/" + beanName + "!" + interfaceClass.getName());
     return interfaceClass.cast(proxy)!!
 }
 
@@ -92,7 +97,7 @@ fun createConfigurationHashTable(): Hashtable<Any, Any> {
     jndiProperties.put("remote.connection.default.port", 4447)
     jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS", false);
 
-    jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_DISALLOWED_MECHANISMS", "JBOSS-LOCAL-USER");
+    // jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_DISALLOWED_MECHANISMS", "JBOSS-LOCAL-USER");
     return jndiProperties
 }
 

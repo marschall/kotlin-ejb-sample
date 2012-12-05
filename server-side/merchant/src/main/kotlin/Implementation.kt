@@ -21,7 +21,7 @@ open class MerchantBean : TMerchant {
     private var ejbContext: EJBContext? = null
 
     public override fun userName(): String? {
-        return ejbContext!!.getCallerPrincipal().getName()
+        return ejbContext!!.getCallerPrincipal()!!.getName()
     }
 
     public override fun activeMerchants(tenant: Tenant): List<Merchant> {
