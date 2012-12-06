@@ -10,8 +10,12 @@ import javax.ejb.EJBContext
 import javax.ejb.Remote
 import javax.ejb.Singleton
 import org.jboss.security.annotation.SecurityDomain
+import javax.ejb.ConcurrencyManagement
+import javax.ejb.ConcurrencyManagementType
+import javax.ejb.ConcurrencyManagementType.BEAN
 
 Singleton
+ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 SecurityDomain("kotlin")
 Remote(javaClass<TMerchant>())
 // remember Session bean implementation class MUST be public, not abstract and not final

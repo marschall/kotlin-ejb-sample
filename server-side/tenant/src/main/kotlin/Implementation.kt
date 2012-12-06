@@ -7,8 +7,11 @@ import java.util.List
 import javax.ejb.Remote
 import javax.ejb.Singleton
 import javax.naming.InitialContext
+import javax.ejb.ConcurrencyManagementType
+import javax.ejb.ConcurrencyManagement
 
 Singleton
+ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 Remote(javaClass<TTenant>())
 // remember Session bean implementation class MUST be public, not abstract and not final
 open class TenantBean : TTenant {

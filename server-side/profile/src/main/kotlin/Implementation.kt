@@ -6,6 +6,8 @@ import javax.jws.WebService
 import javax.jws.soap.SOAPBinding
 import javax.jws.soap.SOAPBinding.ParameterStyle
 import org.jboss.ws.api.annotation.WebContext
+import javax.ejb.ConcurrencyManagementType
+import javax.ejb.ConcurrencyManagement
 
 /**
  * This EJB will be available as a SOAP web service.
@@ -17,6 +19,7 @@ import org.jboss.ws.api.annotation.WebContext
  * </p>
  */
 Singleton
+ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 WebService(
     name = "Profile",
     targetNamespace = "http://www.acme.com/profile",
