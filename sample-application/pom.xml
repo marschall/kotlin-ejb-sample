@@ -15,22 +15,33 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.marschall</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>tenant</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
         </dependency>
         <dependency>
-            <groupId>com.github.marschall</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>merchant</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
         </dependency>
         <dependency>
-            <groupId>com.github.marschall</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>profile</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
+        </dependency>
+        <!--
+          The context root will the the artifact id (web-app)
+          If you want to change that use a webModule
+          http://maven.apache.org/plugins/maven-ear-plugin/modules.html#webModule
+        -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>web-app</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
         </dependency>
     </dependencies>
 
@@ -48,6 +59,11 @@
                     -->
                     <applicationName>sample-application</applicationName>
                     <defaultLibBundleDir>lib/</defaultLibBundleDir>
+                    <!--
+                      Since the JAR file name is part of the JNDI name we remove
+                      the version for the EJBs. All the JARs in the lib/ folder
+                      keep the version.
+                    -->
                     <fileNameMapping>no-version-for-ejb</fileNameMapping>
                     <archive>
                         <index>true</index>

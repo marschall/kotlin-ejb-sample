@@ -17,6 +17,8 @@
         <module>merchant</module>
         <module>profile</module>
         <module>sample-adapter</module>
+        <module>resources</module>
+        <module>web-app</module>
     </modules>
 
     <dependencyManagement>
