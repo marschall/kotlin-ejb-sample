@@ -2,6 +2,7 @@ package com.github.marschall.kotlin.rar.implementation
 
 import org.junit.Test
 import org.junit.Before
+import org.junit.Assert.assertEquals
 
 class SampleAdapterTest {
 
@@ -13,9 +14,8 @@ class SampleAdapterTest {
     }
 
     Test
-    fun lifeCycle() {
-        adapter!!.start(null)
-        adapter!!.stop()
+    fun equals() {
+        assertEquals(adapter, adapter)
     }
 
 }

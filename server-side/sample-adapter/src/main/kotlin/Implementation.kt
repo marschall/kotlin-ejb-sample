@@ -55,7 +55,7 @@ class SampleAdapter : ResourceAdapter {
 
     // JBoss AS 7.1.1 requires this method to be present
     public override fun equals(obj: Any?): Boolean {
-        if (this == obj) {
+        if (this.identityEquals(obj)) {
             return true
         }
         if (!(obj is SampleAdapter)) {

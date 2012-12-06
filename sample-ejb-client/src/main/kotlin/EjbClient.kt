@@ -26,7 +26,9 @@ class EjbClient {
         //System.out.println(merchantBean.userName())
 
         val tenantBean = lookUp(context, "tenant", "TenantBean", javaClass<TTenant>())
-        for (tenant in tenantBean.activeTenants()) {
+        val iterator = tenantBean.activeTenants().iterator()
+        while (iterator!!.hasNext()) {
+            var tenant = iterator.next()
             System.out.println(tenant)
         }
         System.out.println(tenantBean.lookUpJndiValue())
@@ -94,6 +96,7 @@ fun createConfigurationHashTable(): Hashtable<Any, Any> {
     // https://community.jboss.org/thread/176963
     jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 
+    // needs updated client
     /*
     jndiProperties.put("endpoint.name", "client-endpoint")
     jndiProperties.put("remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED", false)
@@ -103,9 +106,9 @@ fun createConfigurationHashTable(): Hashtable<Any, Any> {
     jndiProperties.put("remote.connection.default.host", "127.0.0.1")
     jndiProperties.put("remote.connection.default.port", 4447)
     jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS", false);
+    */
 
     // jndiProperties.put("remote.connection.default.connect.options.org.xnio.Options.SASL_DISALLOWED_MECHANISMS", "JBOSS-LOCAL-USER");
-    */
 
     return jndiProperties
 }

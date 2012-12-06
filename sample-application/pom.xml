@@ -32,6 +32,12 @@
             <version>${project.version}</version>
             <type>ejb</type>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sample-rar</artifactId>
+            <version>${project.version}</version>
+            <type>rar</type>
+        </dependency>
         <!--
           The context root will the the artifact id (web-app)
           If you want to change that use a webModule
