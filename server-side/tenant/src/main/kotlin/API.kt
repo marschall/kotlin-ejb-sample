@@ -12,4 +12,8 @@ public trait TTenant {
 
 public class Tenant(val id:Long, val acronym: String, val name: String) : Serializable {
 
+    override fun toString(): String {
+        return "TTenant($acronym): $name"
+    }
+
 }

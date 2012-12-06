@@ -10,6 +10,7 @@ import javax.security.auth.callback.CallbackHandler
 import javax.security.auth.callback.NameCallback
 import javax.security.auth.callback.PasswordCallback
 import org.jboss.sasl.JBossSaslProvider
+import com.github.marschall.kotlin.merchant.api.TMerchant
 
 class EjbClient {
 
@@ -26,29 +27,31 @@ class EjbClient {
         //System.out.println(merchantBean.userName())
 
         val tenantBean = lookUp(context, "tenant", "TenantBean", javaClass<TTenant>())
-        val iterator = tenantBean.activeTenants().iterator()
-        while (iterator!!.hasNext()) {
-            var tenant = iterator.next()
+        val activeTenants = tenantBean.activeTenants()
+        val tenantIterator1 = activeTenants.iterator()
+        while (tenantIterator1!!.hasNext()) {
+            var tenant = tenantIterator1.next()
             System.out.println(tenant)
         }
-        System.out.println(tenantBean.lookUpJndiValue())
+        //System.out.println(tenantBean.lookUpJndiValue())
 
         // login
         //val loginContext = LoginContext(LOGIN_CONTEXT_NAME, KotlinLoginHandler())
         //loginContext.login()
 
         // unauthenticated calls
-        //val merchantBean = lookUp(context, "merchant", "MerchantBean", javaClass<TMerchant>())
-        /*
-        context = createInitialContextForUser("admin", "admin")
         val merchantBean = lookUp(context, "merchant", "MerchantBean", javaClass<TMerchant>())
+        //context = createInitialContextForUser("admin", "admin")
         System.out.println(merchantBean.userName())
-        for (tenant in tenantBean.activeTenants()) {
-            for (merchant in merchantBean.activeMerchants(tenant)) {
+        val tenantIterator2 = activeTenants.iterator()
+        while (tenantIterator2!!.hasNext()) {
+            var tenant = tenantIterator2.next()
+            val merchantIterator = merchantBean.activeMerchants(tenant).iterator()
+            while (merchantIterator!!.hasNext()) {
+                val merchant = merchantIterator.next()
                 System.out.println(merchant)
             }
         }
-        */
 
     }
 }
@@ -120,6 +123,10 @@ fun createInitialContext(): Context {
 
 fun createInitialContextForUser(username: String, password: String): Context {
     val jndiProperties = createConfigurationHashTable()
+    // https://community.jboss.org/message/731189
+    // https://community.jboss.org/message/613128#613128
+    // https://community.jboss.org/wiki/ManagementAPISecurityPossibleConfigurationSample
+    // https://community.jboss.org/message/640619#640619#640619
     jndiProperties.put("remote.connection.default.username", username)
     jndiProperties.put("remote.connection.default.password", password)
     jndiProperties.put(Context.SECURITY_PRINCIPAL, username);
