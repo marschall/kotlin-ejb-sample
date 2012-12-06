@@ -1,0 +1,20 @@
+        <security-realm name="KotlinRealm">
+	        <authentication>
+	             <jaas name="kotlin"/>
+	        </authentication>
+    	</security-realm>
+
+        <subsystem xmlns="urn:jboss:domain:remoting:1.1">
+            <connector name="remoting-connector" socket-binding="remoting" security-realm="KotlinRealm"/>
+        </subsystem>
+
+                <security-domain name="kotlin" cache-type="default">
+                    <authentication>
+                        <login-module code="Remoting" flag="optional">
+                            <module-option name="password-stacking" value="useFirstPass"/>
+                        </login-module>
+                        <login-module code="Simple" flag="required">
+                            <module-option name="password-stacking" value="useFirstPass"/>
+                        </login-module>
+                    </authentication>
+                </security-domain>
