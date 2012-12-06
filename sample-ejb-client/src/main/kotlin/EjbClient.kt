@@ -20,11 +20,16 @@ class EjbClient {
     fun run() {
 
         // do unauthenticated calls
-        var context = createInitialContext()
+        //var context = createInitialContext()
+        var context = createInitialContextForUser("admin", "admin")
+        //val merchantBean = lookUp(context, "merchant", "MerchantBean", javaClass<TMerchant>())
+        //System.out.println(merchantBean.userName())
+
         val tenantBean = lookUp(context, "tenant", "TenantBean", javaClass<TTenant>())
         for (tenant in tenantBean.activeTenants()) {
             System.out.println(tenant)
         }
+        System.out.println(tenantBean.lookUpJndiValue())
 
         // login
         //val loginContext = LoginContext(LOGIN_CONTEXT_NAME, KotlinLoginHandler())
@@ -114,7 +119,6 @@ fun createInitialContextForUser(username: String, password: String): Context {
     val jndiProperties = createConfigurationHashTable()
     jndiProperties.put("remote.connection.default.username", username)
     jndiProperties.put("remote.connection.default.password", password)
-
     jndiProperties.put(Context.SECURITY_PRINCIPAL, username);
     jndiProperties.put(Context.SECURITY_CREDENTIALS, password)
     return InitialContext(jndiProperties)

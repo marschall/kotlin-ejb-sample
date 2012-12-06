@@ -6,6 +6,7 @@ import java.util.ArrayList
 import java.util.List
 import javax.ejb.Remote
 import javax.ejb.Singleton
+import javax.naming.InitialContext
 
 Singleton
 Remote(javaClass<TTenant>())
@@ -22,4 +23,11 @@ open class TenantBean : TTenant {
         return tenants as List<Tenant>
     }
 
+    public override fun lookUpJndiValue(): String {
+        val ic = InitialContext()
+        return ic.lookup(NAME) as String
+    }
+
 }
+
+val NAME: String  = "java:global/env/foo"
