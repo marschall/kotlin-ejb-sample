@@ -18,6 +18,7 @@ open class TenantBean : TTenant {
         tenants.add(Tenant(1, "te1", "First Tentant"))
         tenants.add(Tenant(2, "tex", "Second Tentant"))
 
+        // return tenants
         return tenants as List<Tenant>
     }
 
