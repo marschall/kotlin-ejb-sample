@@ -42,7 +42,7 @@ class ServerTimeServlet: EventSourceServlet() {
         return TimeEventSource()
     }
 
-    class UpdateSender: Runnable {
+    inner class UpdateSender: Runnable {
         public override fun run() {
             val serverTime = formattedTime()
             for (emitter in emitters!!) {
@@ -57,7 +57,7 @@ class ServerTimeServlet: EventSourceServlet() {
     }
 
 
-    class TimeEventSource: EventSource {
+    inner class TimeEventSource: EventSource {
 
         private volatile var emitter: Emitter? = null
 

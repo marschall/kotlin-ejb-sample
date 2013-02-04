@@ -17,15 +17,15 @@ import javax.ejb.ConcurrencyManagementType.BEAN
 Singleton
 ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 SecurityDomain("kotlin")
-Remote(javaClass<TMerchant>())
+//Remote(javaClass<TMerchant>())
 // remember Session bean implementation class MUST be public, not abstract and not final
 open class MerchantBean : TMerchant {
 
     Resource
     private var ejbContext: EJBContext? = null
 
-    public override fun userName(): String? {
-        return ejbContext!!.getCallerPrincipal()!!.getName()
+    public override fun userName(): String {
+        return ejbContext!!.getCallerPrincipal()!!.getName()!!
     }
 
     public override fun activeMerchants(tenant: Tenant): List<Merchant> {

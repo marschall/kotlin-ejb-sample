@@ -2,8 +2,8 @@ package com.github.marschall.kotlin.merchant.implementation
 
 import com.github.marschall.kotlin.merchant.api.TMerchant
 import com.github.marschall.kotlin.tenant.api.Tenant
-import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 

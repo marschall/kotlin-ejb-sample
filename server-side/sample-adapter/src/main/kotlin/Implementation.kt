@@ -43,8 +43,8 @@ class SampleAdapter : ResourceAdapter {
 
     }
 
-    public override fun getXAResources(specs: Array<out ActivationSpec?>?): Array<XAResource?>? {
-        return null;
+    public override fun getXAResources(specs: Array<out ActivationSpec>?): Array<XAResource>? {
+        return null
     }
 
 

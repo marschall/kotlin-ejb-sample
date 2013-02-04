@@ -2,11 +2,15 @@ package com.github.marschall.kotlin.tenant.api
 
 import java.io.Serializable
 import java.util.List
+import javax.ejb.Remote
 
 public trait TTenant {
+
     public fun activeTenants(): List<Tenant>
 
     public fun lookUpJndiValue(): String
+
+    public fun userName(): String
 
 }
 

@@ -17,6 +17,30 @@
     </modules>
 
     <build>
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+        <plugins>
+            <plugin>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -82,7 +106,7 @@
 
 
     <properties>
-        <kotlin.version>0.4.68</kotlin.version>
+        <kotlin.version>0.5.1</kotlin.version>
         <picketbox.version>4.0.9.Final</picketbox.version>
         <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
