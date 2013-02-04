@@ -23,6 +23,11 @@
             <plugin>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <groupId>org.jetbrains.kotlin</groupId>
+                <configuration>
+                    <annotationPaths>
+                        <annotationPath>src/main/annotations</annotationPath>
+                    </annotationPaths>
+                </configuration>
                 <executions>
                     <execution>
                         <id>compile</id>

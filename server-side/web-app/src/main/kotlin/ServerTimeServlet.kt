@@ -75,8 +75,7 @@ class ServerTimeServlet: EventSourceServlet() {
 }
 
 fun formattedTime(): String {
-    //return String.format("%tT\r\n", System.currentTimeMillis())!!//FIXED in 1.0.1
-    return "%tT\r\n".format(System.currentTimeMillis() as String)!!//FIXED in 1.0.1
+    return "%tT\r\n".format(System.currentTimeMillis() as String)//FIXED in 1.0.1
 }
 
-val LOG: Logger = Logger.getLogger("event-source-sample")!!
+val LOG: Logger = Logger.getLogger("event-source-sample")

@@ -23,7 +23,7 @@ open class TenantBean : TTenant {
     private var ejbContext: EJBContext? = null
 
     public override fun userName(): String {
-        return ejbContext!!.getCallerPrincipal()!!.getName()!!
+        return ejbContext!!.getCallerPrincipal().getName()!!
     }
 
     public override fun activeTenants(): List<Tenant> {

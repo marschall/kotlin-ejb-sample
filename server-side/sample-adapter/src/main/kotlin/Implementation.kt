@@ -67,4 +67,4 @@ class SampleAdapter : ResourceAdapter {
 
 val NAME: String  = "java:global/env/foo"
 val VALUE: String = "FOO"
-val LOG: Logger = Logger.getLogger("sample-adapter")!!
+val LOG: Logger = Logger.getLogger("sample-adapter")
