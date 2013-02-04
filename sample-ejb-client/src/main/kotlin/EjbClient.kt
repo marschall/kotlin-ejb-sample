@@ -21,25 +21,19 @@ class EjbClient {
     fun run() {
 
         // do unauthenticated calls
-        //var context = createInitialContext()
-        var context = createInitialContextForUser("admin", "admin")
-        //val merchantBean = lookUp(context, "merchant", "MerchantBean", javaClass<TMerchant>())
-        //System.out.println(merchantBean.userName())
+        var context = createInitialContext()
 
         val tenantBean = lookUp(context, "tenant", "TenantBean", javaClass<TTenant>())
+        System.out.println(tenantBean.userName())
         val activeTenants = tenantBean.activeTenants()
         val tenantIterator1 = activeTenants.iterator()
         while (tenantIterator1!!.hasNext()) {
             var tenant = tenantIterator1.next()
             System.out.println(tenant)
         }
-        //System.out.println(tenantBean.lookUpJndiValue())
 
         // login
-        //val loginContext = LoginContext(LOGIN_CONTEXT_NAME, KotlinLoginHandler())
-        //loginContext.login()
-
-        // unauthenticated calls
+        context = createInitialContextForUser("admin", "admin")
         val merchantBean = lookUp(context, "merchant", "MerchantBean", javaClass<TMerchant>())
         //context = createInitialContextForUser("admin", "admin")
         System.out.println(merchantBean.userName())
