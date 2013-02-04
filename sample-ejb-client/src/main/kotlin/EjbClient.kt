@@ -25,6 +25,7 @@ class EjbClient {
 
         val tenantBean = lookUp(context, "tenant", "TenantBean", javaClass<TTenant>())
         System.out.println(tenantBean.userName())
+        System.out.println(tenantBean.lookUpJndiValue())
         val activeTenants = tenantBean.activeTenants()
         val tenantIterator1 = activeTenants.iterator()
         while (tenantIterator1!!.hasNext()) {
