@@ -111,7 +111,7 @@
 
 
     <properties>
-        <kotlin.version>0.5.1</kotlin.version>
+        <kotlin.version>1.6.0</kotlin.version>
         <picketbox.version>4.0.9.Final</picketbox.version>
         <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
